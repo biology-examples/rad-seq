@@ -4,6 +4,8 @@
 # adapted from this tutorial: http://ipyrad.readthedocs.io/tutorial_intro_cli.html
 # optimized for running on BioLinux 8 cloud instance through Jetstream
 # instance details here: https://use.jetstream-cloud.org/application/images/55
+# note that sourcing the new profile may need to be done manually, 
+# then the last steps repeated
 
 # download script to install miniconda
 # wget is a command to download files from an online URL (works on Mac, Linux, GitBash)
@@ -24,7 +26,8 @@ source ~/.bashrc
 conda info
 
 # install latest release of ipyrad
-conda install -c ipyrad ipyrad     
+conda install -c ipyrad ipyrad
+# if asked to proceed in installing packages, type y or yes
 
 # manually load jupyter (a dependency of ipyrad)
 pip install jupyter
