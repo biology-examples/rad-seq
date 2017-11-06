@@ -6,6 +6,7 @@
 # instance details here: https://use.jetstream-cloud.org/application/images/55
 # note that sourcing the new profile may need to be done manually, 
 # then the last steps repeated
+# do not run this script again if you have already installed the software successfully
 
 # download script to install miniconda
 # wget is a command to download files from an online URL (works on Mac, Linux, GitBash)
@@ -34,3 +35,4 @@ pip install jupyter
 
 # test install
 ipyrad -v
+# screen should print something like: ipyrad 0.7.17
