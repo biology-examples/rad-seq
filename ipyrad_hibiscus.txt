@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# running ipyrad on demultiplexed example fastq files 
+# dependencies: ipyrad already installed (using ipyrad_install.sh)
+
+# set up project directory
+mkdir hib_project
+cd hib_project
+
+# download data files
+wget https://www.dropbox.com/s/lc945t1xgy5y961/HibData.tar.gz
+
+# expand data files
+tar -xvzf HibData.tar.gz
+
+# inspect data
+cd data
+zcat D5a_1.fastq.gz | head # use gzcat instead on Mac
+cd ..
+
+# create parameter file
+ipyrad -n hib
+
+# modify data file
+# alternatively, open parameter file using nano and edit as follows:
+# ./data/*.gz		## [4] [sorted_fastq_path]
+sed -i '/## \[4\]/c\.\/data\/*.gz                    ## [4] [sorted_fastq_path]: Location of demultiplexed/sorted fastq files' ./params-hib.txt
+# these parameters need to be customized for your data data
+
+# for our files, this step checks data input and prints summary statistics
+# this step demultiplexes files if they have not already been sorted by barcode
+ipyrad -p params-hib.txt -s 1 -r
+
+# filter reads
+ipyrad -p params-hib.txt -s 2
+# view output
+ls hib_edits/
+# get current stats
+ipyrad -p params-hib.txt -r
+
+# cluster reads
+ipyrad -p params-hib.txt -s 3
+# show assembly stats
+ipyrad -p params-hib.txt -r
+
+# estimate error rate and heterozygosity
+ipyrad -p params-hib.txt -s 4
+# summary stats
+ipyrad -p params-hib.txt -r
+
+# perform consensus base calling 
+ipyrad -p params-hib.txt -s 5
+# show results
+ipyrad -p params-hib.txt -r
+
+# cluster across samples
+ipyrad -p params-hib.txt -s 6
+
+# filter and write output files
+ipyrad -p params-hib.txt -s 7
+# this step will error if using default parameters (too few samples?)
